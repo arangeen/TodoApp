@@ -1,0 +1,24 @@
+import Foundation
+
+class TodoStore{
+    
+    var todos = [[Todo](), [Todo]()]
+    
+    // adding todo
+    func add(_ todo: Todo, at index: Int, isDone: Bool = false){
+        
+        //if task is done, put in section 1
+        let section = isDone ? 1 : 0
+        todos[section].insert(todo, at: index)
+        
+    }
+    
+    //remove todo
+    func remove (at index: Int, isDone: Bool = false) -> Todo {
+        
+        let section = isDone ? 1 : 0
+        
+        return todos[section].remove(at: index)
+    }
+    
+}
