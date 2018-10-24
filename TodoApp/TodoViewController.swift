@@ -1,14 +1,12 @@
 import UIKit
 
 class TodoViewController : UITableViewController {
-    var todoStore = TodoStore()
+    var todoStore: TodoStore!  // promising that TodoStore will be initalized or else app crashes
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let todoTasks = [Todo(name: "Go to the gym"), Todo(name: "Do homework"), Todo(name: "Buy milk")]
-        let doneTasks = [Todo(name: "Watch a movie")]
-        todoStore.todos = [todoTasks, doneTasks]
     }
     
     @IBAction func addTodo(_ sender: UIBarButtonItem) {
@@ -17,11 +15,13 @@ class TodoViewController : UITableViewController {
         
         //set up actions to alert controller
         let addAction = UIAlertAction(title: "Add", style: .default, handler: nil)
+        addAction.isEnabled = false // so user cant click add button because it is empty 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         //add the text field to alert controller
         alertController.addTextField{ textField in
             textField.placeholder = "Enter to-do name..."
+            textField.addTarget(self, action: #selector (self.handleTextChanged), for: .editingChanged)
         }
         
         //add the actions to the alert controller
@@ -30,6 +30,17 @@ class TodoViewController : UITableViewController {
         
         //present the alert controller
         present(alertController, animated: true)
+        
+    }
+    
+    @objc private func handleTextChanged(_ sender: UITextField){
+        guard let alertController = presentedViewController as? UIAlertController,
+              let addAction = alertController.actions.first,
+              let text = sender.text
+            else {return}
+        
+        //enabling add action based on if text is empty: returns true if string is empty
+        addAction.isEnabled = !text.trimmingCharacters(in: .whitespaces).isEmpty
         
     }
     

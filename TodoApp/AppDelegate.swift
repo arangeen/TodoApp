@@ -16,6 +16,8 @@ extension UINavigationController{
     }
 }
 
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -24,6 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // initializ todoStore
+        let todoStore = TodoStore()
+        
+//        let todoTasks = [Todo(name: "Go to the gym"), Todo(name: "Do homework"), Todo(name: "Buy milk")]
+//        let doneTasks = [Todo(name: "Watch a movie")]
+//        todoStore.todos = [todoTasks, doneTasks]
+        
+        //grab the TodoViewController
+        let todoViewController = window?.rootViewController?.children.first as? TodoViewController
+        
+        //setting the todoStore accordingly
+        todoViewController?.todoStore = todoStore
+        
         return true
     }
 
