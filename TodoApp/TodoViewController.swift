@@ -11,12 +11,42 @@ class TodoViewController : UITableViewController {
         todoStore.todos = [todoTasks, doneTasks]
     }
     
+    @IBAction func addTodo(_ sender: UIBarButtonItem) {
+        //setting up our alert controller
+        let alertController = UIAlertController(title: "Add todo", message: nil, preferredStyle: .alert)
+        
+        //set up actions to alert controller
+        let addAction = UIAlertAction(title: "Add", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        //add the text field to alert controller
+        alertController.addTextField{ textField in
+            textField.placeholder = "Enter to-do name..."
+        }
+        
+        //add the actions to the alert controller
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        
+        //present the alert controller
+        present(alertController, animated: true)
+        
+    }
     
 }
 
 
 // Datasource
 extension TodoViewController {
+    // title of sections
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "Uncompleted-Tasks" : "Completed-Tasks"
+    }
+    
+    // height of sections
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 55
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return todoStore.todos.count

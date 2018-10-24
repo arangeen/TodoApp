@@ -34,6 +34,9 @@
                     <navigationItem key="navigationItem" title="Todo" id="maa-4j-sHp">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="x3O-0e-IPT">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addTodo:" destination="Iod-4v-KM9" id="jf5-gF-DGb"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
