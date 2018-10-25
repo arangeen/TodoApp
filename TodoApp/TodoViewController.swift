@@ -11,11 +11,26 @@ class TodoViewController : UITableViewController {
     
     @IBAction func addTodo(_ sender: UIBarButtonItem) {
         //setting up our alert controller
-        let alertController = UIAlertController(title: "Add todo", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Add Todo", message: nil, preferredStyle: .alert)
         
         //set up actions to alert controller
-        let addAction = UIAlertAction(title: "Add", style: .default, handler: nil)
-        addAction.isEnabled = false // so user cant click add button because it is empty 
+        let addAction = UIAlertAction(title: "Add", style: .default){ _ in
+            
+            //grabbing text field text
+            guard let name = alertController.textFields?.first?.text else {return}
+            
+            // creating newTask
+            let newTask = Todo(name: name)
+            
+            // add Task to taskStore
+            self.todoStore.add(newTask, at: 0)
+            
+            //reload data in table view
+            let indexPath = IndexPath(row: 0, section: 0)
+            self.tableView.insertRows(at: [indexPath], with: .automatic)
+            
+        }
+        addAction.isEnabled = false // so user cant click add button because it is empty
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         //add the text field to alert controller
@@ -47,17 +62,14 @@ class TodoViewController : UITableViewController {
 }
 
 
-// Datasource
+// MARK: - Datasource
 extension TodoViewController {
     // title of sections
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "Uncompleted-Tasks" : "Completed-Tasks"
     }
     
-    // height of sections
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 55
-    }
+  
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return todoStore.todos.count
@@ -72,4 +84,16 @@ extension TodoViewController {
         cell.textLabel?.text = todoStore.todos[indexPath.section][indexPath.row].name
         return cell
     }
+}
+
+//MARK: - Delegate
+extension TodoViewController {
+    
+    // height of sections
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 55
+    }
+    
+    
+    
 }
