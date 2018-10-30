@@ -94,6 +94,39 @@ extension TodoViewController {
         return 55
     }
     
+    // trailing is swiping from right side of screen (deleteAction)
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (action, sourceView, completionHandler ) in
+            
+            //determine whether task 'isDone'
+            let isDone = self.todoStore.todos[indexPath.section][indexPath.row].isDone
+            
+            //remove the task from the approproate array
+            self.todoStore.remove(at: indexPath.row, isDone: isDone) 
+            
+            //reload tableview
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            //indicate that the action was performed
+            completionHandler(true)
+        }
+    
+        //set picture of delete action & background color & return it
+      
+        deleteAction.image = UIImage(named: "delete")
+        deleteAction.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        
+        
+    }
+    
+    // leading is swiping from left side of screen (doneAction)
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return nil
+    }
     
     
 }

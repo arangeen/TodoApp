@@ -14,7 +14,9 @@ class TodoStore{
     }
     
     //remove todo
-    func remove (at index: Int, isDone: Bool = false) -> Todo {
+    //@discardableResult will silence the warning we can get
+    //"result of call to Remove() is unused"
+   @discardableResult func remove (at index: Int, isDone: Bool = false) -> Todo {
         
         let section = isDone ? 1 : 0
         
