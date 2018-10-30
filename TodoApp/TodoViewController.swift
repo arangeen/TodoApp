@@ -125,7 +125,38 @@ extension TodoViewController {
     
     // leading is swiping from left side of screen (doneAction)
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return nil
+        
+        let doneAction = UIContextualAction(style: .normal, title: nil) { (action, sourceView, completionHandler) in
+            
+            // toggle that the task is done
+        //   self.todoStore.todos[0][indexPath.row].isDone = true
+            
+            //remove task form array containing todoTasks
+            let doneTask = self.todoStore.remove(at: indexPath.row)
+            
+            //reload the table view
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            //add the task to the array containing done tasks
+            self.todoStore.add(doneTask, at: 0, isDone: true)
+            
+            //reload table view
+            tableView.insertRows(at: [IndexPath.init(row: 0, section: 1)], with: .automatic)
+           
+            
+            //indicate the action was performed
+            completionHandler(true)
+            
+        }
+        
+        doneAction.image = UIImage(named: "done")
+        doneAction.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        
+        
+        // using ternary operator to make sure you can only mark first seciton as done
+        return indexPath.section == 0 ? UISwipeActionsConfiguration(actions: [doneAction]) : nil
+        
+        
     }
     
     
